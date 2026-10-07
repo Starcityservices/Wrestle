@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MATFORGE — Wrestling Performance Coach</title>
+<style>
+:root{--bg:#07090d;--panel:#10141b;--panel2:#151a22;--line:#242b36;--text:#f4f7fb;--muted:#8e99a8;--accent:#ff5a36;--accent2:#ff9a3d;--green:#49d17d;--blue:#5aa9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#20252f 0,#0b0e13 38%,#07090d 70%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:250px;background:rgba(10,13,18,.92);border-right:1px solid var(--line);padding:22px 16px;position:sticky;top:0;height:100vh}
+.logo{font-weight:900;letter-spacing:2px;font-size:22px;margin:5px 10px 28px}.logo span{color:var(--accent)}
+.nav button{width:100%;background:none;border:0;color:#aeb7c4;text-align:left;padding:13px 14px;border-radius:10px;margin:3px 0}.nav button.active,.nav button:hover{background:#1a2029;color:white}.nav small{display:block;color:#667180;text-transform:uppercase;font-weight:800;font-size:10px;letter-spacing:1.5px;margin:22px 12px 7px}
+.profile{position:absolute;bottom:18px;left:16px;right:16px;background:#121720;border:1px solid var(--line);padding:12px;border-radius:12px;display:flex;gap:10px;align-items:center}.avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ffb347);display:grid;place-items:center;font-weight:900;color:#111}.profile b{font-size:13px}.profile span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+main{flex:1;min-width:0}.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;background:rgba(7,9,13,.58);backdrop-filter:blur(12px)}.crumb{color:var(--muted);font-size:13px}.topright{display:flex;gap:10px;align-items:center}.pill{padding:8px 11px;border:1px solid var(--line);border-radius:9px;background:#11161d;color:#c5cdd8;font-size:12px}
+.content{padding:30px 34px;max-width:1450px;margin:auto}.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:26px}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:2px;font-weight:900;text-transform:uppercase}.hero h1{font-size:42px;line-height:1;margin:8px 0 10px;letter-spacing:-1.5px}.hero p{color:var(--muted);margin:0;max-width:650px}.hero-actions{display:flex;gap:9px}.btn{border:1px solid var(--line);background:#141a22;color:white;padding:11px 15px;border-radius:10px;font-weight:750}.btn.primary{background:linear-gradient(135deg,var(--accent),#ff7847);border:0;color:#160b08;box-shadow:0 8px 25px #ff5a3625}.btn:hover{transform:translateY(-1px)}
+.grid{display:grid;grid-template-columns:1.4fr .8fr .8fr .8fr;gap:14px}.card{background:linear-gradient(180deg,#121720,#0e1319);border:1px solid var(--line);border-radius:15px;padding:19px;box-shadow:0 10px 30px #0004}.stat .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.stat .num{font-size:30px;font-weight:900;margin-top:7px}.stat .delta{font-size:11px;color:var(--green);margin-top:5px}.workout-card{grid-column:span 2}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.section-title h2{font-size:16px;margin:0}.section-title span{color:var(--muted);font-size:12px}
+.workout{display:flex;align-items:center;gap:15px;padding:13px 0;border-top:1px solid var(--line)}.workout:first-of-type{border-top:0}.icon{width:42px;height:42px;border-radius:11px;background:#1b2029;display:grid;place-items:center;font-size:20px}.workout h3{margin:0 0 4px;font-size:14px}.workout p{margin:0;color:var(--muted);font-size:11px}.tag{margin-left:auto;font-size:10px;padding:5px 7px;border-radius:6px;background:#1b232d;color:#aeb8c6}.progress{height:7px;background:#252c35;border-radius:99px;overflow:hidden;margin-top:12px}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.coach{min-height:285px}.coachbox{display:flex;gap:11px}.coachbubble{background:#181e27;border:1px solid #2b333e;padding:12px;border-radius:12px;color:#d8dee7;font-size:13px;line-height:1.5;flex:1}.coachbubble b{color:white}.coach-input{display:flex;gap:8px;margin-top:15px}.coach-input input{flex:1;background:#0a0e13;border:1px solid var(--line);color:white;padding:11px;border-radius:9px;outline:0}.coach-input input:focus{border-color:#4d5662}
+.list{display:grid;gap:9px}.drill{display:flex;justify-content:space-between;align-items:center;background:#111720;border:1px solid var(--line);border-radius:10px;padding:11px}.drill b{font-size:12px}.drill span{font-size:10px;color:var(--muted)}.barrow{display:grid;grid-template-columns:95px 1fr 45px;gap:10px;align-items:center;margin:13px 0;font-size:11px;color:#aeb7c4}.bar{height:8px;background:#242b35;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#5aa9ff,#9c7bff);border-radius:99px}
+.page{display:none}.page.active{display:block}.hide{display:none!important}
+.exercise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.exercise{min-height:170px}.exercise .big{font-size:31px}.exercise h3{margin:9px 0 5px}.exercise p{color:var(--muted);font-size:12px;line-height:1.45}.explain{margin-top:12px;color:#cbd3de;font-size:11px;line-height:1.5;background:#0b1016;padding:10px;border-radius:9px}
+.timer{font-size:55px;font-weight:900;letter-spacing:2px;text-align:center;margin:18px}.timer-controls{display:flex;justify-content:center;gap:8px}.choice{display:flex;gap:8px;flex-wrap:wrap}.choice button{background:#121821;border:1px solid var(--line);color:#c6ced9;padding:8px 11px;border-radius:8px}.choice button.sel{border-color:var(--accent);color:white;background:#241713}
+
+.training-slider{margin-top:18px;background:#0b1016;border:1px solid var(--line);border-radius:14px;padding:18px}
+.slider-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.slider-head b{font-size:15px}.level{color:var(--accent);font-weight:900;font-size:13px}
+input[type=range]{width:100%;appearance:none;height:8px;border-radius:99px;background:#28313c;outline:0}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:23px;height:23px;border-radius:50%;background:#fff;border:4px solid var(--accent);box-shadow:0 3px 12px #0008}
+input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:#fff;border:4px solid var(--accent)}
+.slider-labels{display:flex;justify-content:space-between;color:#6f7a89;font-size:10px;margin-top:7px}
+.skillrow{grid-template-columns:115px 1fr 35px;margin:11px 0}.skillrow input{width:100%}.skillrow input::-webkit-slider-thumb{width:18px;height:18px}.skillrow input::-moz-range-thumb{width:12px;height:12px}.skillval{color:#fff}.recommend{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:13px}
+.recommend .mini{background:#121821;border:1px solid var(--line);border-radius:10px;padding:11px}.mini b{font-size:12px}.mini span{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+@media(max-width:650px){.recommend{grid-template-columns:1fr}}
+
+
+.profile-card{margin-bottom:14px}.profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.field label{display:block;color:#7f8a99;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}.field input,.field select{width:100%;background:#0b1016;border:1px solid var(--line);color:#fff;padding:10px;border-radius:9px;outline:0}.field input:focus,.field select:focus{border-color:var(--accent)}.save-row{display:flex;justify-content:space-between;align-items:center;margin-top:13px}.saved{color:var(--green);font-size:11px;opacity:0;transition:.2s}.saved.show{opacity:1}.skillrow{grid-template-columns:115px 1fr 35px!important}.skillrow input{width:100%}
+@media(max-width:900px){.profile-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:550px){.profile-grid{grid-template-columns:1fr}}
+
+@media(max-width:1000px){.sidebar{width:75px}.logo{font-size:0}.logo span{font-size:20px}.nav button{font-size:0;text-align:center}.profile{display:none}.content{padding:22px}.grid{grid-template-columns:1fr 1fr}.workout-card{grid-column:span 2}.exercise-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.sidebar{display:none}.content{padding:18px}.hero{display:block}.hero-actions{margin-top:15px}.grid,.two,.exercise-grid{grid-template-columns:1fr}.workout-card{grid-column:auto}.top{padding:0 18px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="logo">MAT<span>FORGE</span></div>
+<div class="nav">
+<small>Train</small>
+<button class="active" data-page="dashboard">◈ &nbsp; Dashboard</button>
+<button data-page="workouts">▣ &nbsp; Workouts</button>
+<button data-page="drills">◉ &nbsp; Technique Lab</button>
+<button data-page="timer">◷ &nbsp; Round Timer</button>
+<small>Track</small>
+<button data-page="progress">↗ &nbsp; Progress</button>
+<button data-page="coach">✦ &nbsp; AI Coach</button>
+</div>
+<div class="profile"><div class="avatar">IW</div><div><b>Wrestler</b><span>Set your profile • 0 lb</span></div></div>
+</aside>
+<main>
+<header class="top"><div class="crumb" id="crumb">Performance / Dashboard</div><div class="topright"><span class="pill">● Season mode</span><span class="pill" id="streak">🔥 0 day streak</span></div></header>
+
+<div class="content">
+<section class="page active" id="dashboard">
+<div class="hero"><div><div class="eyebrow">Performance center</div><h1>Get better on the mat.</h1><p>A wrestling-focused training hub that turns every workout into a clear reason, goal, and progression.</p></div><div class="hero-actions"><button class="btn" onclick="show('workouts')">Build workout</button><button class="btn primary" onclick="show('coach')">Ask AI Coach ✦</button></div></div>
+<div class="card profile-card">
+  <div class="section-title"><h2>Wrestler Setup</h2><span>Edit your profile</span></div>
+  <div class="profile-grid">
+    <div class="field"><label>Name</label><input id="pName" placeholder="Your name"></div>
+    <div class="field"><label>Weight (lb)</label><input id="pWeight" type="number" min="1" placeholder="145"></div>
+    <div class="field"><label>Height</label><input id="pHeight" placeholder="5'10&quot;"></div>
+    <div class="field"><label>Age</label><input id="pAge" type="number" min="5" max="100" placeholder="16"></div>
+    <div class="field"><label>Experience</label><select id="pExp"><option>Beginner</option><option>1–2 years</option><option>3–5 years</option><option>5+ years</option></select></div>
+    <div class="field"><label>Stance</label><select id="pStance"><option>Neutral</option><option>Left lead</option><option>Right lead</option></select></div>
+    <div class="field"><label>Weight class</label><input id="pClass" placeholder="145"></div>
+    <div class="field"><label>Primary goal</label><select id="pGoal"><option>Get better overall</option><option>Takedowns</option><option>Defense</option><option>Top wrestling</option><option>Bottom wrestling</option><option>Conditioning</option><option>Strength</option></select></div>
+  </div>
+  <div class="save-row"><span class="saved" id="savedMsg">✓ Profile saved</span><button class="btn" onclick="resetAllData()">Reset all</button> <button class="btn primary" onclick="saveProfile()">Save profile</button></div>
+</div>
+<div class="card training-slider">
+  <div class="section-title"><h2>Your Wrestling Skill Profile</h2><span id="overallSkill">Overall: 0</span></div>
+  <p style="color:var(--muted);font-size:12px;margin:0 0 16px">Drag each slider to tell MATFORGE how good you are at each part of wrestling. Your scores change the workouts and AI coaching recommendations.</p>
+
+  <div class="barrow skillrow"><span>🏹 Takedowns</span><input class="skill" data-name="Takedowns" type="range" min="0" max="100" value="0" oninput="updateSkills()"><b class="skillval">0</b></div>
+  <div class="barrow skillrow"><span>🛡️ Defense</span><input class="skill" data-name="Defense" type="range" min="0" max="100" value="0" oninput="updateSkills()"><b class="skillval">0</b></div>
+  <div class="barrow skillrow"><span>🔝 Top</span><input class="skill" data-name="Top" type="range" min="0" max="100" value="0" oninput="updateSkills()"><b class="skillval">72</b></div>
+  <div class="barrow skillrow"><span>⬇️ Bottom</span><input class="skill" data-name="Bottom" type="range" min="0" max="100" value="0" oninput="updateSkills()"><b class="skillval">61</b></div>
+  <div class="barrow skillrow"><span>💪 Strength</span><input class="skill" data-name="Strength" type="range" min="0" max="100" value="0" oninput="updateSkills()"><b class="skillval">0</b></div>
+  <div class="barrow skillrow"><span>🔥 Conditioning</span><input class="skill" data-name="Conditioning" type="range" min="0" max="100" value="0" oninput="updateSkills()"><b class="skillval">0</b></div>
+  <div class="barrow skillrow"><span>🎯 Technique</span><input class="skill" data-name="Technique" type="range" min="0" max="100" value="0" oninput="updateSkills()"><b class="skillval">70</b></div>
+
+  <div class="recommend">
+    <div class="mini"><b>Strongest area</b><span id="strongestSkill">—</span></div>
+    <div class="mini"><b>Needs work</b><span id="weakestSkill">—</span></div>
+    <div class="mini"><b>Next focus</b><span id="nextFocus">Start by rating your skills</span></div>
+  </div>
+</div>
+<div class="grid">
+<div class="card stat"><div class="label">Overall skill</div><div class="num" id="statOverall">0</div><div class="delta" id="statOverallText">Rate your skills to begin</div><div class="progress"><i id="statOverallBar" style="width:0%"></i></div></div>
+<div class="card stat"><div class="label">Weight</div><div class="num" id="statWeight">—</div><div class="delta" id="statHeight">Set your height</div></div>
+<div class="card stat"><div class="label">Experience</div><div class="num" id="statExperience">—</div><div class="delta" id="statGoal">Set your goal</div></div>
+<div class="card stat"><div class="label">Best skill</div><div class="num" id="statBest">—</div><div class="delta" id="statBestScore">Rate your skills</div></div>
+
+<div class="card workout-card"><div class="section-title"><h2>Today's training</h2><span>58 min • Hard</span></div>
+<div class="workout"><div class="icon">⚡</div><div><h3>Explosive Shot Circuit</h3><p>Speed • hips • repeat attacks</p></div><span class="tag">12 min</span></div>
+<div class="workout"><div class="icon">💪</div><div><h3>Wrestler Strength A</h3><p>Pull • hinge • trunk stability</p></div><span class="tag">28 min</span></div>
+<div class="workout"><div class="icon">🥊</div><div><h3>Live Situations</h3><p>30 sec attacks → 30 sec recoveries</p></div><span class="tag">18 min</span></div>
+<button class="btn primary" style="width:100%;margin-top:12px" onclick="startWorkout()">Start today's workout</button></div>
+
+<div class="card"><div class="section-title"><h2>Focus</h2><span>This week</span></div>
+<div class="barrow"><span>Technique</span><div class="bar"><i style="width:82%"></i></div><b>82</b></div>
+<div class="barrow"><span>Strength</span><div class="bar"><i style="width:71%"></i></div><b>71</b></div>
+<div class="barrow"><span>Conditioning</span><div class="bar"><i style="width:76%"></i></div><b>76</b></div>
+<div class="barrow"><span>Recovery</span><div class="bar"><i style="width:91%"></i></div><b>91</b></div></div>
+
+<div class="card coach"><div class="section-title"><h2>AI Coach</h2><span>Ready</span></div><div class="coachbox"><div class="avatar">✦</div><div class="coachbubble"><b>Coach:</b> Your readiness is high. Today, prioritize explosive first attacks instead of adding extra lifting volume. Quality reps beat junk reps.</div></div><div class="coach-input"><input id="dashAsk" placeholder="Ask: How do I improve my shot?"><button class="btn primary" onclick="ask('dashAsk','dashReply')">Ask</button></div><div id="dashReply" style="margin-top:10px;color:#aeb7c4;font-size:12px"></div></div>
+
+<div class="card"><div class="section-title"><h2>Quick drills</h2><span>Pick one</span></div><div class="list"><div class="drill"><b>Level-change shots</b><span>3 × 60 sec</span></div><div class="drill"><b>Sprawl → go-behind</b><span>3 × 8</span></div><div class="drill"><b>Hand-fight pummel</b><span>4 × 45 sec</span></div><div class="drill"><b>Wall sit + stand-up</b><span>3 × 30 sec</span></div></div></div>
+</div>
+</section>
+
+<section class="page" id="workouts">
+<div class="hero"><div><div class="eyebrow">Training library</div><h1>Workouts that explain themselves.</h1><p>Choose a goal, then see exactly what each movement is training and why it matters for wrestling.</p></div></div>
+<div class="choice" id="goalChoices"><button class="sel" onclick="filterGoal('all',this)">All</button><button onclick="filterGoal('strength',this)">Strength</button><button onclick="filterGoal('speed',this)">Speed</button><button onclick="filterGoal('conditioning',this)">Conditioning</button><button onclick="filterGoal('recovery',this)">Recovery</button></div>
+<div class="exercise-grid" style="margin-top:15px" id="exerciseGrid">
+<div class="card exercise" data-goal="strength"><div class="big">🏋️</div><h3>Wrestler Strength A</h3><p>3 rounds • 28 min</p><div class="explain"><b>Why:</b> Builds pulling strength, hip power and trunk control without chasing fatigue.</div></div>
+<div class="card exercise" data-goal="speed"><div class="big">⚡</div><h3>Explosive Shot Circuit</h3><p>4 rounds • 12 min</p><div class="explain"><b>Why:</b> Trains fast level changes, penetration steps and repeated explosive attacks.</div></div>
+<div class="card exercise" data-goal="conditioning"><div class="big">🔥</div><h3>Match-Pace Engine</h3><p>6 rounds • 18 min</p><div class="explain"><b>Why:</b> Short hard intervals teach you to attack while tired and recover between bursts.</div></div>
+<div class="card exercise" data-goal="strength"><div class="big">🧱</div><h3>Grip &amp; Trunk</h3><p>3 rounds • 16 min</p><div class="explain"><b>Why:</b> Strong hands and a stable trunk help you control ties, finishes and scrambles.</div></div>
+<div class="card exercise" data-goal="recovery"><div class="big">🧘</div><h3>Recovery Reset</h3><p>15 min</p><div class="explain"><b>Why:</b> Easy movement and mobility help you feel ready for the next hard practice.</div></div>
+<div class="card exercise" data-goal="speed"><div class="big">🥷</div><h3>Scramble Reaction</h3><p>5 rounds • 15 min</p><div class="explain"><b>Why:</b> Improves reaction speed when a clean attack turns into an unpredictable scramble.</div></div>
+</div>
+</section>
+
+<section class="page" id="drills">
+<div class="hero"><div><div class="eyebrow">Technique lab</div><h1>Drill the right thing.</h1><p>Simple technique cues you can take straight to the mat. Tap a drill to reveal its coaching points.</p></div></div>
+<div class="exercise-grid">
+<div class="card exercise" onclick="toggleExplain(this)"><div class="big">🎯</div><h3>Single-Leg Finish</h3><p>Attack → shelf → run the pipe.</p><div class="explain hide">Cue: get your head up, keep your knee tight, and turn the corner before you try to finish.</div></div>
+<div class="card exercise" onclick="toggleExplain(this)"><div class="big">🛡️</div><h3>Sprawl &amp; Go-Behind</h3><p>Stop the shot and score immediately.</p><div class="explain hide">Cue: hips heavy, chest pressure, then circle behind instead of standing straight up.</div></div>
+<div class="card exercise" onclick="toggleExplain(this)"><div class="big">🤼</div><h3>Hand Fight</h3><p>Win inside position first.</p><div class="explain hide">Cue: forehead position, inside ties, short snaps, and constant foot movement.</div></div>
+<div class="card exercise" onclick="toggleExplain(this)"><div class="big">↘️</div><h3>Double-Leg</h3><p>Level change before penetration.</p><div class="explain hide">Cue: change levels with your legs, step between their feet, drive through the opponent.</div></div>
+<div class="card exercise" onclick="toggleExplain(this)"><div class="big">🔒</div><h3>Top Breakdown</h3><p>Pressure before the turn.</p><div class="explain hide">Cue: make them carry your weight, flatten the hips, then attack the near side.</div></div>
+<div class="card exercise" onclick="toggleExplain(this)"><div class="big">🔄</div><h3>Stand-Up</h3><p>Hands first, hips second.</p><div class="explain hide">Cue: protect your hands, build your base, clear the hands, then explode to your feet.</div></div>
+</div>
+</section>
+
+<section class="page" id="timer">
+<div class="hero"><div><div class="eyebrow">Match simulator</div><h1>Round timer.</h1><p>Run realistic work/rest intervals for drilling, conditioning or live goes.</p></div></div>
+<div class="card" style="max-width:650px;margin:auto"><div class="section-title"><h2 id="timerLabel">Wrestling Round</h2><span id="roundNo">Round 1 / 5</span></div><div class="timer" id="timerDisplay">02:00</div><div class="timer-controls"><button class="btn" onclick="resetTimer()">Reset</button><button class="btn primary" id="timerBtn" onclick="timerToggle()">Start</button></div><div class="choice" style="justify-content:center;margin-top:20px"><button onclick="setTimer(120)">2:00 round</button><button onclick="setTimer(180)">3:00 round</button><button onclick="setTimer(30)">30 sec drill</button></div></div>
+</section>
+
+<section class="page" id="progress">
+<div class="hero"><div><div class="eyebrow">Your numbers</div><h1>Progress you can feel.</h1><p>Track the qualities that actually show up on the mat.</p></div></div>
+<div class="grid">
+<div class="card stat"><div class="label">Takedown rate</div><div class="num">68%</div><div class="delta">↑ 9% this month</div></div>
+<div class="card stat"><div class="label">Conditioning</div><div class="num">76/100</div><div class="delta">↑ 8 points</div></div>
+<div class="card stat"><div class="label">Grip score</div><div class="num">81/100</div><div class="delta">↑ 4 points</div></div>
+<div class="card stat"><div class="label">Recovery</div><div class="num">91/100</div><div class="delta">Excellent</div></div>
+</div>
+<div class="card" style="margin-top:14px"><div class="section-title"><h2>Weekly workload</h2><span>Last 7 days</span></div>
+<div class="barrow"><span>Mon</span><div class="bar"><i style="width:64%"></i></div><b>64</b></div><div class="barrow"><span>Tue</span><div class="bar"><i style="width:82%"></i></div><b>82</b></div><div class="barrow"><span>Wed</span><div class="bar"><i style="width:45%"></i></div><b>45</b></div><div class="barrow"><span>Thu</span><div class="bar"><i style="width:90%"></i></div><b>90</b></div><div class="barrow"><span>Fri</span><div class="bar"><i style="width:71%"></i></div><b>71</b></div><div class="barrow"><span>Sat</span><div class="bar"><i style="width:100%"></i></div><b>100</b></div><div class="barrow"><span>Sun</span><div class="bar"><i style="width:20%"></i></div><b>20</b></div></div>
+</section>
+
+<section class="page" id="coach">
+<div class="hero"><div><div class="eyebrow">AI performance coach</div><h1>Ask better questions.</h1><p>Get concise wrestling-focused guidance, workout explanations, and practice ideas. This demo coach uses built-in responses; connect a real AI API later for live answers.</p></div></div>
+<div class="card" style="max-width:900px;margin:auto"><div id="chat" style="display:grid;gap:10px"><div class="coachbox"><div class="avatar">✦</div><div class="coachbubble"><b>Coach:</b> Tell me what you want to improve — shots, finishes, conditioning, strength, confidence, or practice planning.</div></div></div><div class="coach-input"><input id="coachInput" placeholder="Example: Explain how to improve my single leg"><button class="btn primary" onclick="coachSend()">Send</button></div><div class="choice" style="margin-top:12px"><button onclick="quick('Give me a 20 minute conditioning workout')">20-min conditioning</button><button onclick="quick('How do I improve my shot?')">Improve my shot</button><button onclick="quick('Explain today’s strength workout')">Explain workout</button></div></div>
+</section>
+</div>
+</main>
+</div>
+<script>
+const pages=[...document.querySelectorAll('.page')];
+function show(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));const names={dashboard:'Dashboard',workouts:'Workouts',drills:'Technique Lab',timer:'Round Timer',progress:'Progress',coach:'AI Coach'};document.getElementById('crumb').textContent='Performance / '+names[id];window.scrollTo(0,0)}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>show(b.dataset.page));
+function filterGoal(goal,btn){document.querySelectorAll('#goalChoices button').forEach(x=>x.classList.remove('sel'));btn.classList.add('sel');document.querySelectorAll('.exercise').forEach(c=>c.style.display=(goal==='all'||c.dataset.goal===goal)?'block':'none')}
+function toggleExplain(el){el.querySelector('.explain').classList.toggle('hide')}
+function startWorkout(){show('timer');setTimer(120)}
+function replyFor(q){q=q.toLowerCase();if(q.includes('shot')||q.includes('single'))return 'For a better shot: win the hands first, change levels with your legs, take a committed penetration step, and drive through the opponent. Drill 5 clean reps at low speed, then 5 at match pace. Focus on quality, not exhaustion.';if(q.includes('conditioning')||q.includes('gas')||q.includes('cardio'))return 'Try 5 rounds: 30 sec hard shadow wrestling, 30 sec easy movement, 30 sec sprawls, 60 sec recovery. The goal is repeated explosive efforts without letting technique fall apart.';if(q.includes('strength')||q.includes('lift'))return 'Today’s strength work emphasizes pulling, hinging and trunk control because those qualities transfer to ties, finishes and scrambling. Keep technique crisp and stop a set if form breaks down.';if(q.includes('confidence')||q.includes('mental'))return 'Pick one controllable goal for practice: first contact, first attack, or hand position. Confidence grows from stacking successful actions, not from trying to feel fearless.';return 'Start with the goal: what part of your wrestling breaks down most often? Then we can choose one drill, one physical quality, and one measurable target for the week.'}
+function ask(inputId,outId){const q=document.getElementById(inputId).value.trim();if(!q)return;document.getElementById(outId).textContent=replyFor(q);document.getElementById(inputId).value=''}
+function coachSend(){const inp=document.getElementById('coachInput');const q=inp.value.trim();if(!q)return;const chat=document.getElementById('chat');chat.innerHTML+=`<div class="coachbubble" style="justify-self:end;max-width:75%;background:#1d1613"><b>You:</b> ${escapeHtml(q)}</div><div class="coachbox"><div class="avatar">✦</div><div class="coachbubble"><b>Coach:</b> ${replyFor(q)}</div></div>`;inp.value='';chat.scrollTop=chat.scrollHeight}
+function quick(q){document.getElementById('coachInput').value=q;coachSend()}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+let seconds=120,base=120,running=false,interval=null,round=1;
+
+
+function saveProfile(){
+  const ids=['pName','pWeight','pHeight','pAge','pExp','pStance','pClass','pGoal'];
+  const data={}; ids.forEach(id=>data[id]=document.getElementById(id).value);
+  localStorage.setItem('matforgeProfile',JSON.stringify(data));
+  const name=data.pName||'Wrestler';
+  document.querySelector('.profile b').textContent=name;
+  document.querySelector('.profile span').textContent=(data.pWeight?data.pWeight+' lb':'Set weight')+' • '+(data.pClass||'Set class');
+  updateProfileStats(data);
+  const msg=document.getElementById('savedMsg'); msg.classList.add('show'); setTimeout(()=>msg.classList.remove('show'),1800);
+}
+function updateProfileStats(data){
+  const w=document.getElementById('statWeight'), h=document.getElementById('statHeight');
+  const e=document.getElementById('statExperience'), g=document.getElementById('statGoal');
+  if(w) w.textContent=data.pWeight?data.pWeight+' lb':'—';
+  if(h) h.textContent=data.pHeight||'Set your height';
+  if(e) e.textContent=data.pExp?data.pExp.replace(' years',''): '—';
+  if(g) g.textContent=data.pGoal||'Set your goal';
+}
+
+function resetAllData(){
+  localStorage.removeItem('matforgeProfile');
+  document.querySelectorAll('#pName,#pWeight,#pHeight,#pAge,#pClass').forEach(el=>el.value='');
+  document.getElementById('pExp').selectedIndex=0;
+  document.getElementById('pStance').selectedIndex=0;
+  document.getElementById('pGoal').selectedIndex=0;
+  document.querySelectorAll('.skill').forEach(el=>el.value=0);
+  updateSkills();
+  updateProfileStats({});
+  document.querySelector('.profile b').textContent='Wrestler';
+  document.querySelector('.profile span').textContent='Set your profile • 0 lb';
+  document.getElementById('savedMsg').textContent='✓ Reset';
+  document.getElementById('savedMsg').classList.add('show');
+  setTimeout(()=>document.getElementById('savedMsg').classList.remove('show'),1800);
+}
+function loadProfile(){ localStorage.removeItem('matforgeProfile');
+  try{
+    const data=JSON.parse(localStorage.getItem('matforgeProfile')||'{}');
+    Object.keys(data).forEach(id=>{if(document.getElementById(id))document.getElementById(id).value=data[id]});
+    if(data.pName)document.querySelector('.profile b').textContent=data.pName;
+    if(data.pWeight||data.pClass)document.querySelector('.profile span').textContent=(data.pWeight?data.pWeight+' lb':'Set weight')+' • '+(data.pClass||'Set class'); updateProfileStats(data);
+  }catch(e){}
+}
+
+function updateSkills(){
+  const rows=[...document.querySelectorAll('.skillrow')];
+  let total=0, strongest=null, weakest=null;
+  rows.forEach(row=>{
+    const input=row.querySelector('.skill');
+    const val=Number(input.value);
+    row.querySelector('.skillval').textContent=val;
+    const pct=val;
+    input.style.background=`linear-gradient(90deg,var(--accent) 0%,var(--accent) ${pct}%,#28313c ${pct}%,#28313c 100%)`;
+    const name=input.dataset.name;
+    total+=val;
+    if(!strongest||val>strongest.val) strongest={name,val};
+    if(!weakest||val<weakest.val) weakest={name,val};
+  });
+  const overall=Math.round(total/rows.length);
+  document.getElementById('overallSkill').textContent='Overall: '+overall;
+  const so=document.getElementById('statOverall'); if(so) so.textContent=overall;
+  const sb=document.getElementById('statOverallBar'); if(sb) sb.style.width=overall+'%';
+  const st=document.getElementById('statOverallText'); if(st) st.textContent=overall===0?'Rate your skills to begin':(overall<40?'Building your base':overall<70?'Developing':'Strong foundation');
+  const best=document.getElementById('statBest'); if(best) best.textContent=overall===0?'—':strongest.name;
+  const bestScore=document.getElementById('statBestScore'); if(bestScore) bestScore.textContent=overall===0?'Rate your skills':strongest.val+'/100';
+  document.getElementById('strongestSkill').textContent=strongest.name+' • '+strongest.val;
+  document.getElementById('weakestSkill').textContent=weakest.name+' • '+weakest.val;
+  const focus={
+    'Bottom':'Bottom defense & escapes',
+    'Defense':'Shot defense & go-behinds',
+    'Top':'Breakdowns & turns',
+    'Takedowns':'Setups & finishing',
+    'Strength':'Explosive wrestling strength',
+    'Conditioning':'Match-pace conditioning',
+    'Technique':'Clean technique under pressure'
+  };
+  if(overall===0){
+    document.getElementById('strongestSkill').textContent='—';
+    document.getElementById('weakestSkill').textContent='—';
+    document.getElementById('nextFocus').textContent='Start by rating your skills';
+  }else{
+    document.getElementById('strongestSkill').textContent=strongest.name+' • '+strongest.val;
+    document.getElementById('weakestSkill').textContent=weakest.name+' • '+weakest.val;
+    document.getElementById('nextFocus').textContent=focus[weakest.name];
+  }
+}
+function renderTimer(){document.getElementById('timerDisplay').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');document.getElementById('roundNo').textContent='Round '+round+' / 5'}
+function setTimer(s){clearInterval(interval);running=false;seconds=s;base=s;document.getElementById('timerBtn').textContent='Start';renderTimer()}
+function resetTimer(){round=1;setTimer(base)}
+function timerToggle(){if(running){clearInterval(interval);running=false;document.getElementById('timerBtn').textContent='Resume';return}running=true;document.getElementById('timerBtn').textContent='Pause';interval=setInterval(()=>{seconds--;renderTimer();if(seconds<=0){clearInterval(interval);running=false;round=round<5?round+1:1;seconds=base;document.getElementById('timerBtn').textContent='Start';renderTimer();}},1000)}
+loadProfile();
+updateSkills();
+renderTimer();
+</script>
+</body>
+</html>
